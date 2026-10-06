@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6213344137021217087
+--- !u!114 &-6682841072837841724
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_Toon
-  m_Shader: {fileID: -6465566751694194690, guid: ac357d8ada8f60c49b4dbe741e69cca2,
+  m_Name: MAT_Paint 4
+  m_Shader: {fileID: -6465566751694194690, guid: c4ae9754c08554d409e458627da86104,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -37,10 +37,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _BASE_COLOR_MAP:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -61,15 +57,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _EMISSION_COLOR_MAP:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _METALNESS_MAP:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -81,10 +69,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _NORMAL_MAP:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -93,20 +77,20 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SPECULAR_COLOR_MAP:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SPECULAR_IOR_MAP:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SPECULAR_ROUGHNESS_MAP:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_5c095e5ef075431585aa3dd2a76a2c31_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 0cca928aebe982c4d94bfb0ca5cba43e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_6744269e2a2e41dea1d3e3ae0079b03a_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 0cca928aebe982c4d94bfb0ca5cba43e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_cdf2e33782e54769baffbe6e261598e0_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 0cca928aebe982c4d94bfb0ca5cba43e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -124,14 +108,18 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
-    - _AlphaMAx: 1
-    - _AlphaMin: 0.5
     - _AlphaToMask: 0
+    - _AnalogousAngle: 5.8
+    - _AnalogousIntensity: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
+    - _BrushDensity: 8.05
+    - _BrushSizeLayer1: 1.44
+    - _BrushSizeLayer2: 1
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _ColorBoundary: -0.07
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
@@ -142,38 +130,30 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _METALNESS: 0
     - _Metallic: 0
-    - _Mode: 0
     - _OcclusionStrength: 1
-    - _OutlineWidth: 0.02
-    - _OutlineWidthMin: 0.005
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _SPECULAR_IOR: 1.5
-    - _SPECULAR_ROUGHNESS: 0
-    - _ShellHeightSteps: 4
-    - _ShellNoiseRate: 4
-    - _ShellNoiseScale: 3
-    - _ShellNoiseStrength: 0.2
+    - _RingBrushDensity: 11.67
+    - _RingBrushSize: 5.42
+    - _RingWidth: 0.26
+    - _ShadowBufferBTM: 0.4
+    - _ShadowBufferTOP: -0.25
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _UVSec: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BASE_COLOR: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.8424868, g: 0.8679245, b: 0.38892844, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EMISSION_COLOR: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _OutlineColor: {r: 0.3301887, g: 0.1759968, b: 0.1759968, a: 0.65882355}
-    - _SPECULAR_COLOR: {r: 1, g: 1, b: 1, a: 0}
+    - _RingBrushColor: {r: 0.7111092, g: 0.764151, b: 0.34242615, a: 1}
+    - _ShadowColor: {r: 0.4499676, g: 0.6415094, b: 0.021181926, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

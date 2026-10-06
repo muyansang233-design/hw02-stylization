@@ -2,11 +2,11 @@
 #define ANALOGOUS_COLORS_INCLUDED
 
 // Shader Graph Custom Function: File mode, Name = AnalogousColors,
-// Supports Single and Half precision. Inputs: BaseColor (Vector3), Angle (Float, degrees).
+// Inputs: BaseColor (Vector3), Angle (Float, degrees), AnalogousIntensity (Float, 0..1).
 // Outputs: ColorLeft (Vector3), ColorRight (Vector3).
-// Uses HSV in the supplied RGB space; preserves saturation and value,
-// not perceptual lightness. BaseColor must have nonnegative RGB channels.
-void AnalogousColors_float(float3 BaseColor, float Angle,
+// Uses HSV in the supplied RGB space; preserves saturation, shifts hue, and
+// darkens/brightens value. BaseColor must have nonnegative RGB channels.
+void AnalogousColors_float(float3 BaseColor, float Angle, float AnalogousIntensity,
                           out float3 ColorLeft, out float3 ColorRight)
 {
     // RGB -> HSV. The epsilon keeps black and gray inputs well-defined.
@@ -26,20 +26,38 @@ void AnalogousColors_float(float3 BaseColor, float Angle,
     // HSV -> RGB with hue shifted to either side and wrapped around the wheel.
     float3 leftRamp = saturate(abs(frac((h - offset).xxx + shifts) * 6.0 - 3.0) - 1.0);
     float3 rightRamp = saturate(abs(frac((h + offset).xxx + shifts) * 6.0 - 3.0) - 1.0);
-    ColorLeft = v * lerp(float3(1.0, 1.0, 1.0), leftRamp, s);
-    ColorRight = v * lerp(float3(1.0, 1.0, 1.0), rightRamp, s);
+    // Moving toward black/white also creates contrast when saturation is zero.
+    // Keep HDR values intact at intensity zero; the bright side never dims HDR.
+    float intensity = saturate(AnalogousIntensity);
+    float leftValue = v * (1.0 - intensity);
+    float rightValue = lerp(v, max(1.0, v), intensity);
+    ColorLeft = leftValue * lerp(float3(1.0, 1.0, 1.0), leftRamp, s);
+    ColorRight = rightValue * lerp(float3(1.0, 1.0, 1.0), rightRamp, s);
 }
 
 // Sub Graph previews may request half precision even when the parent uses float.
 // Keep the HSV calculation in float so its epsilon remains representable.
-void AnalogousColors_half(half3 BaseColor, half Angle,
+void AnalogousColors_half(half3 BaseColor, half Angle, half AnalogousIntensity,
                          out half3 ColorLeft, out half3 ColorRight)
 {
     float3 left;
     float3 right;
-    AnalogousColors_float((float3)BaseColor, (float)Angle, left, right);
+    AnalogousColors_float((float3)BaseColor, (float)Angle, (float)AnalogousIntensity, left, right);
     ColorLeft = (half3)left;
     ColorRight = (half3)right;
+}
+
+// Preserve existing callers that have not added the new input yet.
+void AnalogousColors_float(float3 BaseColor, float Angle,
+                          out float3 ColorLeft, out float3 ColorRight)
+{
+    AnalogousColors_float(BaseColor, Angle, 0.0, ColorLeft, ColorRight);
+}
+
+void AnalogousColors_half(half3 BaseColor, half Angle,
+                         out half3 ColorLeft, out half3 ColorRight)
+{
+    AnalogousColors_half(BaseColor, Angle, (half)0.0, ColorLeft, ColorRight);
 }
 
 #endif

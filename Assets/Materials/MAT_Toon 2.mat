@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_Toon
+  m_Name: MAT_Toon 2
   m_Shader: {fileID: -6465566751694194690, guid: ac357d8ada8f60c49b4dbe741e69cca2,
     type: 3}
   m_Parent: {fileID: 0}
@@ -125,7 +125,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaMAx: 1
-    - _AlphaMin: 0.5
+    - _AlphaMin: 0.4
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
@@ -146,7 +146,7 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _OutlineWidth: 0.02
+    - _OutlineWidth: 0.1
     - _OutlineWidthMin: 0.005
     - _Parallax: 0.005
     - _QueueControl: 0

@@ -9,7 +9,7 @@ using UnityEngine;
 [InitializeOnLoad]
 internal static class PaintShaderDiagnostics
 {
-    private const string SessionKey = "PaintShaderDiagnostics.RingAnalogousColors.v2";
+    private const string SessionKey = "PaintShaderDiagnostics.AnalogousIntensity.v1";
     private const string ReportPath = "Temp/PaintShaderValidation.json";
 
     static PaintShaderDiagnostics()
@@ -67,6 +67,8 @@ internal static class PaintShaderDiagnostics
             var source = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/MAT_Paint.mat");
             temporary = source != null ? new Material(source) : new Material(shader);
             temporary.shader = shader;
+            if (!temporary.HasProperty("_AnalogousIntensity"))
+                throw new InvalidOperationException("MAT_Paint is missing the AnalogousIntensity input.");
             report.passCount = temporary.passCount;
             for (int pass = 0; pass < temporary.passCount; pass++)
                 ShaderUtil.CompilePass(temporary, pass);

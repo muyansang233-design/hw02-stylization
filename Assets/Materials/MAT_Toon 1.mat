@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_Toon
+  m_Name: MAT_Toon 1
   m_Shader: {fileID: -6465566751694194690, guid: ac357d8ada8f60c49b4dbe741e69cca2,
     type: 3}
   m_Parent: {fileID: 0}
@@ -124,8 +124,6 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
-    - _AlphaMAx: 1
-    - _AlphaMin: 0.5
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
@@ -146,7 +144,7 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _OutlineWidth: 0.02
+    - _OutlineWidth: 0.1
     - _OutlineWidthMin: 0.005
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -154,10 +152,6 @@ Material:
     - _ReceiveShadows: 1
     - _SPECULAR_IOR: 1.5
     - _SPECULAR_ROUGHNESS: 0
-    - _ShellHeightSteps: 4
-    - _ShellNoiseRate: 4
-    - _ShellNoiseScale: 3
-    - _ShellNoiseStrength: 0.2
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -173,7 +167,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EMISSION_COLOR: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _OutlineColor: {r: 0.3301887, g: 0.1759968, b: 0.1759968, a: 0.65882355}
+    - _OutlineColor: {r: 0.5377358, g: 0.35012338, b: 0.18516374, a: 0.65882355}
     - _SPECULAR_COLOR: {r: 1, g: 1, b: 1, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

@@ -1,3 +1,10 @@
+#ifndef HW02_LIGHTING_HELP_INCLUDED
+#define HW02_LIGHTING_HELP_INCLUDED
+
+#ifndef SHADERGRAPH_PREVIEW
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+#endif
+
 void GetMainLight_float(float3 WorldPos, out float3 Color, out float3 Direction, out float DistanceAtten, out float ShadowAtten)
 {
 #ifdef SHADERGRAPH_PREVIEW
@@ -6,19 +13,32 @@ void GetMainLight_float(float3 WorldPos, out float3 Color, out float3 Direction,
     DistanceAtten = 1;
     ShadowAtten = 1;
 #else
-#if SHADOWS_SCREEN
-        float4 clipPos = TransformWorldToClip(WorldPos);
-        float4 shadowCoord = ComputeScreenPos(clipPos);
+#if defined(_MAIN_LIGHT_SHADOWS_SCREEN) && !defined(_SURFACE_TYPE_TRANSPARENT)
+    float4 shadowCoord = ComputeScreenPos(TransformWorldToHClip(WorldPos));
 #else
     float4 shadowCoord = TransformWorldToShadowCoord(WorldPos);
 #endif
 
-    Light mainLight = GetMainLight(shadowCoord);
+    // WorldPos is the fragment's world-space position, including cascade selection.
+    // This overload also fades realtime shadows at the pipeline's shadow distance.
+    // A white shadow mask leaves baked shadowmask lighting outside this helper's scope.
+    Light mainLight = GetMainLight(shadowCoord, WorldPos, half4(1, 1, 1, 1));
     Direction = mainLight.direction;
     Color = mainLight.color;
     DistanceAtten = mainLight.distanceAttenuation;
     ShadowAtten = mainLight.shadowAttenuation;
 #endif
+}
+
+void GetMainLight_half(half3 WorldPos, out half3 Color, out half3 Direction, out half DistanceAtten, out half ShadowAtten)
+{
+    float3 color, direction;
+    float distanceAtten, shadowAtten;
+    GetMainLight_float(WorldPos, color, direction, distanceAtten, shadowAtten);
+    Color = color;
+    Direction = direction;
+    DistanceAtten = distanceAtten;
+    ShadowAtten = shadowAtten;
 }
 
 void ComputeAdditionalLighting_float(float3 WorldPosition, float3 WorldNormal,
@@ -94,3 +114,5 @@ void ChooseColor_float(float3 Highlight, float3 Midtone, float3 Shadow, float Di
         OUT = Highlight;
     }
 }
+
+#endif
