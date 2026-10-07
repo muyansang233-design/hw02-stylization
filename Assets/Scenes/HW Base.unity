@@ -1070,6 +1070,73 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8c911a3c71a36d4f86b9c82ac837dd1, type: 3}
+--- !u!1 &1046809969
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1046809971}
+  - component: {fileID: 1046809970}
+  m_Layer: 0
+  m_Name: Material Stages
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1046809970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1046809969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a916c45c852b4e16a63c4fb47560e80d, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  materialPairs:
+  - paint: {fileID: 2100000, guid: ed77910ead8a9dd4e9cf4542ee0ca0a0, type: 2}
+    unlit: {fileID: 2100000, guid: 6891c95e4ae92028460d9351f735bb87, type: 2}
+  - paint: {fileID: 2100000, guid: 07aee48ef4b77084a82ea3b37dde23e5, type: 2}
+    unlit: {fileID: 2100000, guid: f5cbf6ec326458ee221a3ffcc866bc98, type: 2}
+  - paint: {fileID: 2100000, guid: ac78201e62adfb04ebb30f24c8ba308d, type: 2}
+    unlit: {fileID: 2100000, guid: d1ee664bbd3c5e934e247a10e24b4be2, type: 2}
+  - paint: {fileID: 2100000, guid: f75a686b170867147944fc9caa330aad, type: 2}
+    unlit: {fileID: 2100000, guid: 92e958676b2274436eb701d18760f18f, type: 2}
+  - paint: {fileID: 2100000, guid: f23257d83b5bbab4bb000352d9717f15, type: 2}
+    unlit: {fileID: 2100000, guid: bef33dc3d028f0b58c688d302daf8269, type: 2}
+  - paint: {fileID: 2100000, guid: c55817fa605e5124a848c9ec1eb83240, type: 2}
+    unlit: {fileID: 2100000, guid: 30430ba565cfaf6da3646189c9a22432, type: 2}
+  - paint: {fileID: 2100000, guid: e82d8765eeb8ade4e98b881f02cc4e60, type: 2}
+    unlit: {fileID: 2100000, guid: d346d078a55dd2c657a9097e5b2eb85d, type: 2}
+  - paint: {fileID: 2100000, guid: 0cf8a59e20bb9c54e86e6d0832678ddb, type: 2}
+    unlit: {fileID: 2100000, guid: 861b2a6fdd7c079acbb68576d77f86b8, type: 2}
+  outlineMaterials:
+  - {fileID: 2100000, guid: b22339e9489bb3040a99cf10565d77de, type: 2}
+  - {fileID: 2100000, guid: c6cf07e5f0e7878478e65bdef2815f27, type: 2}
+  - {fileID: 2100000, guid: 83f925c25e5e6bb4d9b583e8e2472f85, type: 2}
+  - {fileID: 2100000, guid: a1a868f3bf213804d95e988a591a7365, type: 2}
+  rendererData: {fileID: 11400000, guid: 04b3e88365069a642a3bcb043610ea48, type: 2}
+--- !u!4 &1046809971
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1046809969}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1139888617
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1866,3 +1933,4 @@ SceneRoots:
   - {fileID: 1909735647}
   - {fileID: 208189154}
   - {fileID: 1320777026}
+  - {fileID: 1046809971}
