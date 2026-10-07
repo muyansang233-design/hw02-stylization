@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_Paint
+  m_Name: MAT_Cloud
   m_Shader: {fileID: -6465566751694194690, guid: c4ae9754c08554d409e458627da86104,
     type: 3}
   m_Parent: {fileID: 0}
@@ -115,7 +115,7 @@ Material:
     - _BlendModePreserveSpecular: 1
     - _BrushDensity: 8.05
     - _BrushSizeLayer1: 1.44
-    - _BrushSizeLayer2: 1.351
+    - _BrushSizeLayer2: 1
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -138,7 +138,7 @@ Material:
     - _ReceiveShadows: 1
     - _RingBrushDensity: 11.67
     - _RingBrushSize: 5.42
-    - _RingWidth: 0.27
+    - _RingWidth: 0.26
     - _ShadowBufferBTM: 0.4
     - _ShadowBufferTOP: -0.25
     - _Smoothness: 0.5
@@ -150,10 +150,10 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.9803922, g: 0.7058824, b: 0.45098042, a: 1}
+    - _BaseColor: {r: 1, g: 0.9452045, b: 0.8066038, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _RingBrushColor: {r: 0.9745099, g: 0.46666664, b: 0.39411768, a: 1}
-    - _ShadowColor: {r: 0.9686275, g: 0.22745097, b: 0.33725488, a: 1}
+    - _RingBrushColor: {r: 0.8301887, g: 0.74354815, b: 0.5521538, a: 1}
+    - _ShadowColor: {r: 0.7264151, g: 0.5643967, b: 0.42831078, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

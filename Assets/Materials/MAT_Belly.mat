@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_Paint 4
+  m_Name: MAT_Belly
   m_Shader: {fileID: -6465566751694194690, guid: c4ae9754c08554d409e458627da86104,
     type: 3}
   m_Parent: {fileID: 0}
@@ -150,10 +150,10 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.8424868, g: 0.8679245, b: 0.38892844, a: 1}
+    - _BaseColor: {r: 1, g: 0.9016173, b: 0.6556604, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _RingBrushColor: {r: 0.7111092, g: 0.764151, b: 0.34242615, a: 1}
-    - _ShadowColor: {r: 0.4499676, g: 0.6415094, b: 0.021181926, a: 1}
+    - _RingBrushColor: {r: 0.8301887, g: 0.74354815, b: 0.5521538, a: 1}
+    - _ShadowColor: {r: 0.7264151, g: 0.5643967, b: 0.42831078, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
