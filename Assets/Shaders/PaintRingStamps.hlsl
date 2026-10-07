@@ -4,8 +4,7 @@
 #include "PaintPoissonDisk.hlsl"
 #include "Includes/LightingHelp.hlsl"
 
-// Match the graph's signed main-light value and additional-light lift.
-// Thresholds/ramps are shared with its ComputeAdditionalLighting node.
+
 float PaintRingLightingValue(float3 positionWS, float3 normalWS,
     float2 thresholds, float3 ramps)
 {
@@ -18,10 +17,6 @@ float PaintRingLightingValue(float3 positionWS, float3 normalWS,
     return min(mainValue + 2.0 * dot(additionalColor, float3(0.2126, 0.7152, 0.0722)), 1.0);
 }
 
-// Fragment-only. All shadow rings use the same total-light boundary test:
-// a dark-side center with at least one brighter neighbor across Boundary.
-// Width controls the spatial probe radius. Position/normal are local surface
-// approximations, not a mesh raycast or a global color bake.
 void PaintRingStampsColors_float(float2 UV, float3 WorldPosition, float3 WorldNormal,
     float Boundary, float Width, float Density, float BrushSize, float ShadowStrength,
     float2 AdditionalThresholds, float3 AdditionalRamps,
