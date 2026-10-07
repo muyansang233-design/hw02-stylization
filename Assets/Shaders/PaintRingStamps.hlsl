@@ -7,38 +7,36 @@
 // Match the graph's signed main-light value and additional-light lift.
 // Thresholds/ramps are shared with its ComputeAdditionalLighting node.
 float PaintRingLightingValue(float3 positionWS, float3 normalWS,
-    float2 thresholds, float3 ramps, out float occlusion)
+    float2 thresholds, float3 ramps)
 {
     float3 color, direction, additionalColor;
     float distanceAtten, shadowAtten, additionalDiffuse;
     GetMainLight_float(positionWS, color, direction, distanceAtten, shadowAtten);
     ComputeAdditionalLighting_float(positionWS, normalWS, thresholds, ramps,
         additionalColor, additionalDiffuse);
-    occlusion = saturate(1.0 - shadowAtten);
     float mainValue = lerp(-1.0, dot(normalWS, direction), saturate(distanceAtten * shadowAtten));
     return min(mainValue + 2.0 * dot(additionalColor, float3(0.2126, 0.7152, 0.0722)), 1.0);
 }
 
-// Fragment-only. Both rings share projected centers, four neighbors, spatial
-// Width and full brush stamps. Position and normal are local approximations,
-// not a mesh raycast or a global color bake.
+// Fragment-only. All shadow rings use the same total-light boundary test:
+// a dark-side center with at least one brighter neighbor across Boundary.
+// Width controls the spatial probe radius. Position/normal are local surface
+// approximations, not a mesh raycast or a global color bake.
 void PaintRingStampsColors_float(float2 UV, float3 WorldPosition, float3 WorldNormal,
     float Boundary, float Width, float Density, float BrushSize, float ShadowStrength,
     float2 AdditionalThresholds, float3 AdditionalRamps,
     Texture2D Brush, SamplerState BrushSampler,
-    out float Mask, out float ColorMix, out float ShadowRingMask, out float ShadowColorMix)
+    out float Mask, out float ColorMix)
 {
     Mask = 0.0;
     ColorMix = 0.0;
-    ShadowRingMask = 0.0;
-    ShadowColorMix = 0.0;
     // Evaluate derivatives before runtime branches and loops.
     float2 ux = ddx(UV), uy = ddy(UV);
     float3 px = ddx(WorldPosition), py = ddy(WorldPosition);
     float3 nx = ddx(WorldNormal), ny = ddy(WorldNormal);
     float determinant = ux.x * uy.y - ux.y * uy.x;
     float determinantScale = sqrt(dot(ux, ux) * dot(uy, uy));
-    if (Width <= 0.0 || Density <= 0.0 || BrushSize <= 0.0 ||
+    if (Width <= 0.0 || Density <= 0.0 || BrushSize <= 0.0 || ShadowStrength <= 0.0 ||
         abs(determinant) <= max(1e-20, determinantScale * 1e-4))
         return;
 
@@ -82,61 +80,43 @@ void PaintRingStampsColors_float(float2 UV, float3 WorldPosition, float3 WorldNo
         float2 centerOffset = delta / Density;
         float3 centerWS = WorldPosition - dPdu * centerOffset.x - dPdv * centerOffset.y + projectionBias;
         float3 centerNormal = WorldNormal - dNdu * centerOffset.x - dNdv * centerOffset.y;
-        float centerOcclusion;
         float centerValue = PaintRingLightingValue(centerWS, SafeNormalize(centerNormal),
-            AdditionalThresholds, AdditionalRamps, centerOcclusion);
-        bool colorCandidate = centerValue <= Boundary;
-        bool shadowCandidate = false;
-#if !defined(SHADERGRAPH_PREVIEW) && defined(MAIN_LIGHT_CALCULATE_SHADOWS) && !defined(_MAIN_LIGHT_SHADOWS_SCREEN)
-        shadowCandidate = ShadowStrength > 0.0 && centerOcclusion > 0.0;
-#endif
-        if (!colorCandidate && !shadowCandidate)
+            AdditionalThresholds, AdditionalRamps);
+        if (centerValue > Boundary)
             continue;
 
-        // Each light/shadow lookup serves both boundary tests.
-        float neighborOcclusion;
+        // Surface shading, attenuation and additional lights all participate
+        // in this one test. There is no separate shadowmap-edge branch.
         float brightestValue = PaintRingLightingValue(centerWS + offsetU, SafeNormalize(centerNormal + normalU),
-            AdditionalThresholds, AdditionalRamps, neighborOcclusion);
-        float leastOcclusion = neighborOcclusion;
+            AdditionalThresholds, AdditionalRamps);
         brightestValue = max(brightestValue, PaintRingLightingValue(centerWS - offsetU, SafeNormalize(centerNormal - normalU),
-            AdditionalThresholds, AdditionalRamps, neighborOcclusion));
-        leastOcclusion = min(leastOcclusion, neighborOcclusion);
+            AdditionalThresholds, AdditionalRamps));
         brightestValue = max(brightestValue, PaintRingLightingValue(centerWS + offsetV, SafeNormalize(centerNormal + normalV),
-            AdditionalThresholds, AdditionalRamps, neighborOcclusion));
-        leastOcclusion = min(leastOcclusion, neighborOcclusion);
+            AdditionalThresholds, AdditionalRamps));
         brightestValue = max(brightestValue, PaintRingLightingValue(centerWS - offsetV, SafeNormalize(centerNormal - normalV),
-            AdditionalThresholds, AdditionalRamps, neighborOcclusion));
-        leastOcclusion = min(leastOcclusion, neighborOcclusion);
+            AdditionalThresholds, AdditionalRamps));
+        if (brightestValue <= Boundary)
+            continue;
 
-        // A fixed choice per Poisson center keeps both kinds of brush stable.
+        // Keep the whole stamp and a stable analogous-color choice per center.
         float choice = step(0.5, PaintPoissonHash((float)i + seed * 101.0 + 83.0));
-        if (colorCandidate && brightestValue > Boundary)
-        {
-            ColorMix = ColorMix * (1.0 - stamp) + choice * stamp;
-            Mask = 1.0 - (1.0 - Mask) * (1.0 - stamp);
-        }
-        if (shadowCandidate && leastOcclusion < centerOcclusion)
-        {
-            float shadowStamp = stamp * centerOcclusion;
-            ShadowColorMix = ShadowColorMix * (1.0 - shadowStamp) + choice * shadowStamp;
-            ShadowRingMask = 1.0 - (1.0 - ShadowRingMask) * (1.0 - shadowStamp);
-        }
+        ColorMix = ColorMix * (1.0 - stamp) + choice * stamp;
+        Mask = 1.0 - (1.0 - Mask) * (1.0 - stamp);
     }
     ColorMix = Mask > 0.000001 ? saturate(ColorMix / Mask) : 0.0;
-    // Normalize before Strength: fading the overlay must not change its colors.
-    ShadowColorMix = ShadowRingMask > 0.000001 ? saturate(ShadowColorMix / ShadowRingMask) : 0.0;
-    ShadowRingMask *= saturate(ShadowStrength);
+    // Strength fades every ring uniformly without changing the chosen colors.
+    Mask *= saturate(ShadowStrength);
 }
 
 void PaintRingStampsColors_float(float2 UV, float3 WorldPosition, float3 WorldNormal,
     float Boundary, float Width, float Density, float BrushSize, float ShadowStrength,
     float2 AdditionalThresholds, float3 AdditionalRamps,
     UnityTexture2D Brush, UnitySamplerState BrushSampler,
-    out float Mask, out float ColorMix, out float ShadowRingMask, out float ShadowColorMix)
+    out float Mask, out float ColorMix)
 {
     PaintRingStampsColors_float(UV, WorldPosition, WorldNormal, Boundary, Width, Density,
         BrushSize, ShadowStrength, AdditionalThresholds, AdditionalRamps,
-        Brush.tex, BrushSampler.samplerstate, Mask, ColorMix, ShadowRingMask, ShadowColorMix);
+        Brush.tex, BrushSampler.samplerstate, Mask, ColorMix);
 }
 
 #endif

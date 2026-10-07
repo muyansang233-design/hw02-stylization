@@ -54,6 +54,9 @@
         },
         {
             "m_Id": "17767a5adcca4cd7a4aaa3f72c99c8c6"
+        },
+        {
+            "m_Id": "36be32b9d5004799a0991301819e5be0"
         }
     ],
     "m_Nodes": [
@@ -4594,6 +4597,51 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "36be32b9d5004799a0991301819e5be0",
+    "m_Name": "",
+    "m_ChildObjectList": [
+        {
+            "m_Id": "c865a6bf56ca4417a2b8a46d3a26c93e"
+        },
+        {
+            "m_Id": "e44a9624806a46939dfb256f2c1eddd5"
+        },
+        {
+            "m_Id": "aa8fb878360546478ad6c173cdff99ec"
+        },
+        {
+            "m_Id": "d40d4499aa034bdeab7ee963d99510df"
+        },
+        {
+            "m_Id": "d85c28caed7e4bffbe1e3bb0bca09077"
+        },
+        {
+            "m_Id": "6955584cdc7e43d8a44bc5634aaee803"
+        },
+        {
+            "m_Id": "3c54fcfbae7549cdbc10071de76ac293"
+        },
+        {
+            "m_Id": "9b9383c97a2a4c069e119f3ae70e3a82"
+        },
+        {
+            "m_Id": "1976726bcd454f9d81cfc62e380b697f"
+        },
+        {
+            "m_Id": "ed74ab3a81a442769d55085f766ecaf0"
+        },
+        {
+            "m_Id": "aa65c65d20f147f79399b82ef2c3b222"
+        },
+        {
+            "m_Id": "233a375054ea4431bbf2916776833ec5"
+        }
+    ]
 }
 
 {
