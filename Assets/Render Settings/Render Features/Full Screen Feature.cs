@@ -12,7 +12,7 @@ public class FullScreenFeature : ScriptableRendererFeature
         public Material material;
     }
 
-    [SerializeField] private FullScreenPassSettings settings;
+    [SerializeField] private FullScreenPassSettings settings = new FullScreenPassSettings();
     class FullScreenPass : ScriptableRenderPass
     {
         const string ProfilerTag = "Full Screen Pass";
@@ -24,7 +24,7 @@ public class FullScreenFeature : ScriptableRendererFeature
         {
             this.settings = passSettings;
             this.renderPassEvent = settings.renderPassEvent;
-            if (settings.material == null) settings.material = CoreUtils.CreateEngineMaterial("Shader Graphs/Invert");
+            ConfigureInput(ScriptableRenderPassInput.Depth);
         }
 
         // This method is called before executing the render pass.
@@ -35,6 +35,9 @@ public class FullScreenFeature : ScriptableRendererFeature
         public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
         {
             RenderTextureDescriptor descriptor = renderingData.cameraData.cameraTargetDescriptor;
+            descriptor.depthBufferBits = 0;
+            descriptor.msaaSamples = 1;
+            descriptor.bindMS = false;
             colorBuffer = renderingData.cameraData.renderer.cameraColorTarget;
 
             cmd.GetTemporaryRT(temporaryBufferID, descriptor, FilterMode.Point);
@@ -51,7 +54,12 @@ public class FullScreenFeature : ScriptableRendererFeature
             using (new ProfilingScope(cmd, new ProfilingSampler(ProfilerTag)))
             {
                 // HW 4 Hint: Blit from the color buffer to a temporary buffer and *back*.
-                Blit(cmd, colorBuffer, temporaryBuffer, settings.material);
+                // The Fullscreen Graph reads BlitSource from _BlitTexture.
+                cmd.SetGlobalTexture("_BlitTexture", colorBuffer);
+                // Use its Blit-compatible pass with the assignment supplied Blit call.
+                int passIndex = Mathf.Max(0, settings.material.FindPass("Blit"));
+                Blit(cmd, colorBuffer, temporaryBuffer, settings.material, passIndex);
+                Blit(cmd, temporaryBuffer, colorBuffer);
             }
 
             // Execute the command buffer and release it.
@@ -79,10 +87,8 @@ public class FullScreenFeature : ScriptableRendererFeature
     // This method is called when setting up the renderer once per-camera.
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
-        if (renderingData.cameraData.cameraType != CameraType.Game)
+        if (renderingData.cameraData.cameraType != CameraType.Game || settings.material == null)
             return;
         renderer.EnqueuePass(m_FullScreenPass);
     }
 }
-
-

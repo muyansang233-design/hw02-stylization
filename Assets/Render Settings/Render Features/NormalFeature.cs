@@ -26,6 +26,8 @@ public class NormalFeature : ScriptableRendererFeature
     // This method is called when setting up the renderer once per-camera.
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
+        if (NormalsTexture == null || normalsMaterial == null)
+            return;
         if (renderingData.cameraData.cameraType == CameraType.Game)
             renderer.EnqueuePass(m_NormalsPass);
     }
@@ -52,13 +54,24 @@ class NormalsPass : ScriptableRenderPass
 
     public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
     {
+        if (target == null)
+            return;
+        if (target.width != cameraTextureDescriptor.width || target.height != cameraTextureDescriptor.height || target.antiAliasing != 1 || target.depth < 16)
+        {
+            target.Release();
+            target.width = cameraTextureDescriptor.width;
+            target.height = cameraTextureDescriptor.height;
+            target.antiAliasing = 1;
+            target.depth = 24;
+        }
+        if (!target.IsCreated()) target.Create();
         ConfigureTarget(target);
         ConfigureClear(ClearFlag.All, Color.black);
     }
 
     public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
     {
-        if (renderingData.cameraData.cameraType != CameraType.Game)
+        if (renderingData.cameraData.cameraType != CameraType.Game || target == null || normalsMaterial == null)
             return;
         SortingCriteria sortingCriteria = renderingData.cameraData.defaultOpaqueSortFlags;
         DrawingSettings drawingSettings = CreateDrawingSettings(m_ShaderTagIdList, ref renderingData, sortingCriteria);
@@ -68,6 +81,7 @@ class NormalsPass : ScriptableRenderPass
         using (new ProfilingScope(cmd, m_ProfilingSampler))
         {
             context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref m_FilteringSettings);
+            cmd.SetGlobalTexture("_NormalsBuffer", target);
         }
 
         context.ExecuteCommandBuffer(cmd);
