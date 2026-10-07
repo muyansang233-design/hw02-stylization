@@ -109,7 +109,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _AnalogousAngle: 5.8
+    - _AnalogousAngle: 8.66
     - _AnalogousIntensity: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
