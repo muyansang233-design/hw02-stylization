@@ -24,6 +24,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _PaperTexture:
+        m_Texture: {fileID: 2800000, guid: f701b019ccce4f86b2c8acd28cae974a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -38,15 +42,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AnimationAmount: 0.15
-    - _AnimationSpeed: 4
+    - _PaperStrength: 0.2
+    - _PaperScale: 1
     - _DepthStrength: 1
     - _DepthThreshold: 0.01
-    - _NoiseScale: 35
     - _NormalStrength: 0.65
     - _NormalThreshold: 0.12
     - _OutlineOpacity: 0.75
     - _OutlineWidth: 1.1
     m_Colors:
+    - _PaperTint: {r: 1, g: 0.98, b: 0.94, a: 1}
     - _OutlineColor: {r: 0.059999965, g: 0.035, b: 0.025, a: 1}
   m_BuildTextureStacks: []
